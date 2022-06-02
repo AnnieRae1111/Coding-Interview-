@@ -75,10 +75,77 @@ class BinarySearchTree {
           }
           currentNode = currentNode.right;
         }
+        //see UDEMY VIDEO for other steps and optoins.
+        //THIS IS NOT DONE YET
       }
     }
   }
-  lookup(value) {}
+  lookup(value) {
+    if (!this.root) {
+      // if the root is empty/not a root node
+      return false;
+      //if there is no root note, it doesnt matter return false. we aren't goign to find the node
+    }
+    let currentNode = this.root;
+    while (currentNode) {
+      //while there is a current node , loop through
+      if (value < currentNode.value) {
+        //if the value we are inserting is less than the current nodes' value
+        currentNode = currentNode.left;
+      } else if (value > currentNode.value) {
+        currentNode = currentNode.right;
+        //keep checking to the right
+      } else if (currentNode.value === value) {
+        //if the current node we are on equal the value we are looking for
+        return currentNode;
+        //retun that node because it is a match and it;s what we are looking for
+      }
+    }
+    return false;
+  }
+
+  remove(value) {
+    if (!this.root) {
+      //if there is not a root node
+      return false;
+      //there is nothing to remove
+    }
+    let currentNode = this.root;
+    //otherwise the currentNode is the root
+    let parentNode = null;
+    //declaring a new variable for the parent node
+    //we need a reference to the parent node
+    while (currentNode) {
+      //while a currentNode exists
+      if (value < currentNode.value) {
+        //go left
+        parentNode = currentNode;
+        currentNode = currentNode.left;
+      } else if (value > currentNode.value) {
+        //go right
+        parentNode = currentNode;
+        currentNode = currentNode.right;
+      } else if (currentNode.value === value) {
+        //we have a match but need to consider some things and use if statements to check
+        //Optoin 1: No right child
+        if (currentNode.right === null) {
+          if (parentNode === null) {
+            //if there is no right child and and no parent node
+            this.root = currentNode.left;
+            //the root becaomse the current left node
+          } else {
+            //if parent > current value, maek the current left child a child of the parent
+            if (currentNode.value < parentNode.value) {
+              parentNode.left = currentNode.left;
+            } else if (currentNode.value > parentNode.value) {
+              //if parent < current value , amek left child a right child of parent
+              parentNode.right = currentNode.left;
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 const tree = new BinarySearchTree();
@@ -102,3 +169,7 @@ function traverse(node) {
   tree.right = node.rigth === null ? null : traverse(node.right);
   return tree;
 }
+
+//even though we have while loops, we are only iterating using divide and conquer
+//we aren't visiting each node. we are making a decision on each node to go left or right.
+//O(Log N)
