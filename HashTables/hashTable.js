@@ -23,7 +23,7 @@ user.scream(); // o(1)
 // ---Map---- ///
 const a = new Map();
 //allows you to save any data type as the key
-//with an object an only save the key as a strin g
+//with an object can only save the key as a string
 //can have functions or arrays as keys
 //it maintains insertion order
 
@@ -40,8 +40,9 @@ class HashTable {
 
   _hash(key) {
     //private properties are created using _
-    //you can access these properties or methods outside of the class you are delcaring this in
+    //you cant access these properties or methods outside of the class you are delcaring this in
     //you can technically access it but you shouldn't
+    //lets other progammers know thatthis is  a private property
     let hash = 0;
     for (let i = 0; i < key.length; i++) {
       hash = (hash + key.charCodeAt(i) * i) % this.data.length;
